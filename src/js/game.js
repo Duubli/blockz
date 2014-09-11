@@ -16,7 +16,8 @@
 
     create: function () {
 
-    	this.setSocket();
+      // Connect to socket.io
+      this.setSocket();
 
       // Set physics
       this.physics.startSystem(Phaser.Physics.ARCADE);
