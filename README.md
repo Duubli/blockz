@@ -22,3 +22,9 @@ npm start
 ```shell
 npm run build
 ```
+
+Server
+------
+```shell
+node server/server.js
+´´´
