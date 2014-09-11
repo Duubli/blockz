@@ -36,7 +36,7 @@ gulp.task('copy', ['clean'], function () {
 });
 
 gulp.task('uglify', ['clean','lint'], function () {
-  var srcs = [paths.libs[0], paths.js[0]];
+  var srcs = [paths.libs[0], paths.libs[1], paths.js[0]];
 
   gulp.src(srcs)
     .pipe(concat('main.min.js'))
