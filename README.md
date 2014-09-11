@@ -27,4 +27,10 @@ Server
 ------
 ```shell
 node server/server.js
-``
+```
+
+TODO
+----
+- Display shooting by remote enemies
+- Respawn after death
+- Stats
