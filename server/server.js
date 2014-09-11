@@ -8,7 +8,7 @@ var socket,
 
 function init () {
   players = [];
-  socket = io.listen(8765);
+  socket = io.listen(62130);
   util.log("Server running!");
   setEventHandlers();
 }

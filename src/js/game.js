@@ -163,7 +163,7 @@
 
       var self = this;
 
-      this.socket = io.connect('http://localhost:8765');
+      this.socket = io.connect('http://localhost:62130');
       this.socket.on('connect', this.onSocketConnected);
 
       this.socket.on('new player', function (data) {
@@ -204,7 +204,7 @@
       for (i = 0; i < self.enemies.children.length; i++) {
         enemy = self.enemies.children[i];
         if (enemy.id == data.id) {
-          self.add.tween(enemy).to({ x: data.x, y: data.y }, 100, Phaser.Easing.Linear.None, true).start();
+          self.add.tween(enemy).to({ x: data.x, y: data.y }, 100, Phaser.Easing.Linear.None, true);
           return;
         }
       }
