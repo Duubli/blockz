@@ -1,14 +1,14 @@
 window.onload = function () {
-  'use strict';
+	'use strict';
 
-  var game
-    , ns = window['blockz'];
+	var game,
+			ns = window['blockz'];
 
-  game = new Phaser.Game(640, 480, Phaser.AUTO, 'blockz-game');
-  game.state.add('boot', ns.Boot);
-  game.state.add('preloader', ns.Preloader);
-  game.state.add('menu', ns.Menu);
-  game.state.add('game', ns.Game);
+	game = new Phaser.Game(640, 480, Phaser.AUTO, 'blockz-game');
+	game.state.add('boot', ns.Boot);
+	game.state.add('preloader', ns.Preloader);
+	game.state.add('menu', ns.Menu);
+	game.state.add('game', ns.Game);
 
-  game.state.start('boot');
+	game.state.start('boot');
 };

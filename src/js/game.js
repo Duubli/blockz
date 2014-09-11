@@ -45,7 +45,7 @@
 			this.game.physics.arcade.enable(this.player);
 
 			this.player.body.bounce.y = 0.2;
-			this.player.body.gravity.y = 500;
+			this.player.body.gravity.y = 1000;
 			this.player.body.collideWorldBounds = true;
 
 			// Bullets
@@ -73,91 +73,91 @@
 
 		},
 
-    update: function () {
+		update: function () {
 
-      // Move the player
-      this.movePlayer();
+			// Move the player
+			this.movePlayer();
 
-      // Shoot!
-      if (this.input.activePointer.isDown) {
-      	this.shoot();
-      }
+			// Shoot!
+			if (this.input.activePointer.isDown) {
+				this.shoot();
+			}
 
-      // Kill bullets when they hit platforms
-      this.physics.arcade.overlap(this.bullets, this.platforms, function (bullet, platform) {
-      	bullet.kill();
-      }, null, null);
+			// Kill bullets when they hit platforms
+			this.physics.arcade.overlap(this.bullets, this.platforms, function (bullet, platform) {
+				bullet.kill();
+			}, null, null);
 
-      // Kill enemies when show
-      this.physics.arcade.overlap(this.bullets, this.enemies, this.enemyShot, null, null);
+			// Kill enemies when show
+			this.physics.arcade.overlap(this.bullets, this.enemies, this.enemyShot, null, null);
 
     },
 
     movePlayer: function () {
 
-      var leftKey = Phaser.Keyboard.A,
-          rightKey = Phaser.Keyboard.D,
-          upKey = Phaser.Keyboard.W;
+			var leftKey = Phaser.Keyboard.A,
+			rightKey = Phaser.Keyboard.D,
+			upKey = Phaser.Keyboard.W;
 
-      // Collide with platforms
-      this.physics.arcade.collide(this.player, this.platforms);
+			// Collide with platforms
+			this.physics.arcade.collide(this.player, this.platforms);
 
-      // Collied with enemies
-      this.physics.arcade.collide(this.player, this.enemies);
+			// Collied with enemies
+			this.physics.arcade.collide(this.player, this.enemies);
 
-      // Reset velocity
-      this.player.body.velocity.x = 0;
+			// Reset velocity
+			this.player.body.velocity.x = 0;
 
-      // Move left
-      if (this.input.keyboard.isDown(leftKey)) {
-        this.player.body.velocity.x = -150;
-      }
-      // Move right
-      else if (this.input.keyboard.isDown(rightKey)) {
-      	this.player.body.velocity.x = 150;
-      }
+			// Move left
+			if (this.input.keyboard.isDown(leftKey)) {
+				this.player.body.velocity.x = -150;
+			}
+			// Move right
+			else if (this.input.keyboard.isDown(rightKey)) {
+				this.player.body.velocity.x = 150;
+			}
 
-      // Jump!
-      // console.log(this.player.body.touching.down);
-      if (this.input.keyboard.isDown(upKey) && this.player.body.touching.down) {
-      	this.player.body.velocity.y = -550;
-      }
+			// Jump!
+			// console.log(this.player.body.touching.down);
+			if (this.input.keyboard.isDown(upKey) && this.player.body.touching.down) {
+				this.player.body.velocity.y = -600;
+			}
 
-    },
+		},
 
-    shoot: function () {
+		shoot: function () {
 
-      var bullet;
+			var bullet;
 
-      // If shooting is allowed, SHOOT!
-      if (this.time.now > this.nextFire && this.bullets.countDead() > 0) {
-        this.nextFire = this.time.now + this.firerate;
+			// If shooting is allowed, SHOOT!
+			if (this.time.now > this.nextFire && this.bullets.countDead() > 0) {
+				this.nextFire = this.time.now + this.firerate;
 
-        bullet = this.bullets.getFirstDead();
-        bullet.reset(this.player.x, this.player.y);
-        this.physics.arcade.moveToPointer(bullet, 300);
-      }
+				bullet = this.bullets.getFirstDead();
+				bullet.reset(this.player.x, this.player.y);
+				this.physics.arcade.moveToPointer(bullet, 300);
+			}
 
-    },
+		},
 
-    enemyShot: function (bullet, enemy) {
+		enemyShot: function (bullet, enemy) {
 
-      // Decrease health
-      enemy.health -= 20;
+			// Decrease health
+			enemy.health -= 20;
 
-      // Kill the bullet
-      bullet.kill();
+			// Kill the bullet
+			bullet.kill();
 
-      // If there's no health left, kill the enemy
-      if (enemy.health <= 0) {
-        enemy.kill();
-      }
+			// If there's no health left, kill the enemy
+			if (enemy.health <= 0) {
+				enemy.kill();
+			}
 
-    }
+		}
 
-  };
+	};
 
-  window['blockz'] = window['blockz'] || {};
-  window['blockz'].Game = Game;
+	window['blockz'] = window['blockz'] || {};
+	window['blockz'].Game = Game;
 
 }());
