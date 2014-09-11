@@ -22,8 +22,9 @@
       this.physics.startSystem(Phaser.Physics.ARCADE);
 
       // Background
-      this.background = this.add.sprite(0, 0, 'white');
-      this.background.scale.setTo(this.world.width, this.world.height);
+      this.stage.backgroundColor = 0xFFFFFF;
+      //this.background = this.add.sprite(0, 0, 'white');
+      //this.background.scale.setTo(this.world.width, this.world.height);
 
       // Platforms group
       this.platforms = this.add.group();
