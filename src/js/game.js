@@ -166,12 +166,16 @@
       this.socket = io.connect('http://localhost:8765');
       this.socket.on('connect', this.onSocketConnected);
 
-      this.socket.on('new player', function(data) {
+      this.socket.on('new player', function (data) {
         self.onNewPlayer(data, self);
       });
 
-      this.socket.on('moved player', function(data) {
-      	self.onPlayerMove(data, self);
+      this.socket.on('moved player', function (data) {
+        self.onPlayerMove(data, self);
+      });
+
+      this.socket.on('remove player', function (data) {
+        self.removePlayer(data, self);
       });
     },
 
@@ -205,6 +209,17 @@
         }
       }
 
+    },
+
+    removePlayer: function (data, self) {
+
+      var i, enemy;
+      for (i = 0; i < self.enemies.children.length; i++) {
+        enemy = self.enemies.children[i];
+        if (enemy.id == data.id) {
+          enemy.kill();
+        }
+      }
     }
 
   };
