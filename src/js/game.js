@@ -163,7 +163,7 @@
 
       var self = this;
 
-      this.socket = io.connect('http://localhost:62130');
+      this.socket = io.connect('http://lakka.kapsi.fi:62130');
       this.socket.on('connect', this.onSocketConnected);
 
       this.socket.on('new player', function (data) {
