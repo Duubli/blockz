@@ -9,11 +9,15 @@
     this.enemies = null;
     this.firerate = 100;
     this.nextFire = 0;
+    this.socket = null;
   }
 
   Game.prototype = {
 
     create: function () {
+
+    	this.setSocket();
+
       // Set physics
       this.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -48,6 +52,10 @@
       this.player.body.gravity.y = 1000;
       this.player.body.collideWorldBounds = true;
 
+      this.player.lastMovement = this.time.totalElapsedSeconds();
+
+      this.socket.emit("new player", { x: this.player.x, y: this.player.y });
+
       // Bullets
       this.bullets = this.add.group();
       this.bullets.enableBody = true;
@@ -58,18 +66,6 @@
       // Enemies
       this.enemies = this.add.group();
       this.enemies.enableBody = true;
-
-      var enemy = this.enemies.create(20, 275, 'player');
-      enemy.scale.setTo(0.2, 0.2);
-      enemy.health = 100;
-      enemy.body.immovable = true;
-
-      enemy = this.enemies.create(200, 445, 'player');
-      enemy.scale.setTo(0.2, 0.2);
-      enemy.health = 100;
-      enemy.body.immovable = true;
-
-
 
     },
 
@@ -123,6 +119,14 @@
         this.player.body.velocity.y = -600;
       }
 
+      if (this.time.totalElapsedSeconds() - this.player.lastMovement >= 0.1) {
+        this.socket.emit("move player", { x: this.player.x, y: this.player.y });
+        this.player.lastMovement = this.time.totalElapsedSeconds();
+      }
+
+      this.player.prevX = this.player.x;
+      this.player.prevY = this.player.y;
+
     },
 
     shoot: function () {
@@ -151,6 +155,54 @@
       // If there's no health left, kill the enemy
       if (enemy.health <= 0) {
         enemy.kill();
+      }
+
+    },
+
+    setSocket: function () {
+
+      var self = this;
+
+      this.socket = io.connect('http://localhost:8765');
+      this.socket.on('connect', this.onSocketConnected);
+
+      this.socket.on('new player', function(data) {
+        self.onNewPlayer(data, self);
+      });
+
+      this.socket.on('moved player', function(data) {
+      	self.onPlayerMove(data, self);
+      });
+    },
+
+    onSocketConnected: function (data) {
+      console.log('Connected to socket server!');
+    },
+
+    onNewPlayer: function (data, self) {
+
+      if (data.id === self.socket.io.engine.id) {
+      	return;
+      }
+      var enemy = self.enemies.create(data.x, data.y, 'player');
+      enemy.scale.setTo(0.25, 0.25);
+      enemy.health = 100;
+      enemy.id = data.id;
+      enemy.body.collideWorldBounds = true;
+      enemy.body.immovable = true;
+
+    },
+
+    onPlayerMove: function (data, self) {
+
+      var i, enemy;
+
+      for (i = 0; i < self.enemies.children.length; i++) {
+        enemy = self.enemies.children[i];
+        if (enemy.id == data.id) {
+          self.add.tween(enemy).to({ x: data.x, y: data.y }, 100, Phaser.Easing.Linear.None, true).start();
+          return;
+        }
       }
 
     }
