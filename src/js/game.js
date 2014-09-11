@@ -136,7 +136,7 @@
         this.player.body.velocity.y = -600;
       }
 
-      if (this.time.totalElapsedSeconds() - this.player.lastMovement >= 0.05) {
+      if (this.time.totalElapsedSeconds() - this.player.lastMovement >= 0.015) {
         this.socket.emit("move player", { x: this.player.x, y: this.player.y, name: this.player.name });
         this.player.lastMovement = this.time.totalElapsedSeconds();
       }
@@ -238,7 +238,7 @@
       for (i = 0; i < self.enemies.children.length; i++) {
         enemy = self.enemies.children[i];
         if (enemy.id == data.id) {
-          self.add.tween(enemy).to({ x: data.x, y: data.y }, 50, Phaser.Easing.Linear.None, true);
+          self.add.tween(enemy).to({ x: data.x, y: data.y }, 15, Phaser.Easing.Linear.None, true);
           break;
         }
       }
@@ -250,7 +250,7 @@
           self.add.tween(enemyName).to({
             x: enemy.x + (enemy.width / 2) - (enemy.width / 2),
             y: enemy.y - 20
-          }, 50, Phaser.Easing.Linear.None, true);
+          }, 15, Phaser.Easing.Linear.None, true);
           break;
         }
       }
