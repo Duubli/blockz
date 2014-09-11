@@ -1,0 +1,10 @@
+{
+  "name": "blockz",
+  "version": "0.0.0",
+  "authors": [
+    "Aleksi Kaistinen"
+  ],
+  "dependencies": {
+    "phaser-official": "latest"
+  }
+}
