@@ -48,16 +48,26 @@ function onClientDisconnect () {
 function onNewPlayer (data) {
 
   // Create a new player
-  var newPlayer = new Player(data.x, data.y);
+  var newPlayer = new Player(data.x, data.y, data.name);
   newPlayer.id = this.id;
 
   // Send the new player to connected clients
-  this.broadcast.emit("new player", { id: newPlayer.id, x: newPlayer.getX(), y: newPlayer.getY() });
+  this.broadcast.emit("new player", {
+    id: newPlayer.id,
+    x: newPlayer.getX(),
+    y: newPlayer.getY(),
+    name: newPlayer.getName()
+  });
 
   // Send existing players to the new player
   var i, existingPlayer;
   for (i = 0; i < players.length; i++) {
-  	this.emit("new player", { id: players[i].id, x: players[i].getX(), y: players[i].getY() });
+    this.emit("new player", {
+      id: players[i].id,
+      x: players[i].getX(),
+      y: players[i].getY(),
+      name: players[i].getName()
+    });
   }
 
   util.log("New player created: " + this.id);

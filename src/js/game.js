@@ -3,10 +3,12 @@
 
   function Game() {
     this.player = null;
+    this.playerName = null;
     this.background = null;
     this.platforms = null;
     this.bullets = null;
     this.enemies = null;
+    this.enemyNames = null;
     this.firerate = 100;
     this.nextFire = 0;
     this.socket = null;
@@ -55,8 +57,18 @@
       this.player.body.collideWorldBounds = true;
 
       this.player.lastMovement = this.time.totalElapsedSeconds();
+      this.player.name = chance.first();
 
-      this.socket.emit("new player", { x: this.player.x, y: this.player.y });
+      this.socket.emit("new player", {
+        x: this.player.x,
+        y: this.player.y,
+        name: this.player.name
+      });
+
+      // Show the player name
+      this.playerName = this.add.text(this.player.x, this.player.y - 50, this.player.name, {
+      	font: '12px Arial', fill: '#000000', align: 'center'
+      });
 
       // Bullets
       this.bullets = this.add.group();
@@ -68,6 +80,9 @@
       // Enemies
       this.enemies = this.add.group();
       this.enemies.enableBody = true;
+
+      // EnemyNames
+      this.enemyNames = this.add.group();
 
     },
 
@@ -122,12 +137,16 @@
       }
 
       if (this.time.totalElapsedSeconds() - this.player.lastMovement >= 0.1) {
-        this.socket.emit("move player", { x: this.player.x, y: this.player.y });
+        this.socket.emit("move player", { x: this.player.x, y: this.player.y, name: this.player.name });
         this.player.lastMovement = this.time.totalElapsedSeconds();
       }
 
       this.player.prevX = this.player.x;
       this.player.prevY = this.player.y;
+
+      // Move the player name
+      this.playerName.x = this.player.x + (this.player.width / 2) - ( this.playerName.width / 2);
+      this.playerName.y = this.player.y - 20; // - ( this.player.width / 2 ) - ( this.playerName.textWidth / 2 );
 
     },
 
@@ -165,7 +184,8 @@
 
       var self = this;
 
-      this.socket = io.connect('http://lakka.kapsi.fi:62130');
+      // this.socket = io.connect('http://lakka.kapsi.fi:62130');
+      this.socket = io.connect('http://localhost:62130');
       this.socket.on('connect', this.onSocketConnected);
 
       this.socket.on('new player', function (data) {
@@ -190,6 +210,8 @@
       if (data.id === self.socket.io.engine.id) {
       	return;
       }
+
+      // Create the enemy
       var enemy = self.enemies.create(data.x, data.y, 'player');
       enemy.scale.setTo(0.25, 0.25);
       enemy.health = 100;
@@ -197,17 +219,39 @@
       enemy.body.collideWorldBounds = true;
       enemy.body.immovable = true;
 
+      // Display enemy name
+      var enemyName = this.add.text(data.x, data.y - 50, data.name, {
+      	font: '12px Arial', fill: '#000000', align: 'center'
+      }, this.enemyNames);
+
+      enemyName.id = data.id;
+      enemyName.x = enemy.x + (enemy.width / 2) - (enemy.width / 2);
+      enemyName.y = enemy.y - 20;
+
     },
 
     onPlayerMove: function (data, self) {
 
-      var i, enemy;
+      var i, enemy, enemyName;
 
+      // Move the enemy
       for (i = 0; i < self.enemies.children.length; i++) {
         enemy = self.enemies.children[i];
         if (enemy.id == data.id) {
           self.add.tween(enemy).to({ x: data.x, y: data.y }, 100, Phaser.Easing.Linear.None, true);
-          return;
+          break;
+        }
+      }
+
+      // Move the enemy name
+      for (i = 0; i < self.enemyNames.children.length; i++) {
+        enemyName = self.enemyNames.children[i];
+        if (enemyName.id == data.id) {
+          self.add.tween(enemyName).to({
+            x: enemy.x + (enemy.width / 2) - (enemy.width / 2),
+            y: enemy.y - 20
+          }, 100, Phaser.Easing.Linear.None, true);
+          break;
         }
       }
 

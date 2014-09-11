@@ -5,6 +5,7 @@
     "Aleksi Kaistinen"
   ],
   "dependencies": {
-    "phaser-official": "latest"
+    "phaser-official": "latest",
+    "chance": "latest"
   }
 }
