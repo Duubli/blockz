@@ -8,9 +8,9 @@ Setting it up
 npm install
 ```
 
-- Install Phaser
+- Install bower packages
 ```shell
-bower install phaser
+bower install
 ```
 
 - Watch files and start dev server
@@ -27,4 +27,4 @@ Server
 ------
 ```shell
 node server/server.js
-```
+``
