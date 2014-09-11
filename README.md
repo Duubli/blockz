@@ -4,20 +4,21 @@ Blockz
 Setting it up
 -------------
 - Install node packages
-'''shell
+```shell
 npm install
+```
 
 - Install Phaser
-'''shell
+```shell
 bower install phaser
-'''
+```
 
 - Watch files and start dev server
-'''shell
+```shell
 npm start
-'''
+```
 
-- To build all files to ./dist/
-'''shell
+- To build all files to `./dist/`
+```shell
 npm run build
-'''
+```
