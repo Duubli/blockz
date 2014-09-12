@@ -35,7 +35,8 @@
     },
 
     gameResized: function (width, height) {
-
+      console.log(width);
+      console.log(height);
     },
 
     enterIncorrectOrientation: function () {

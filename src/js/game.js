@@ -1,11 +1,11 @@
+/*global io */
 (function() {
   'use strict';
 
   function Game() {
-    this.player = null;
-    this.playerName = null;
     this.background = null;
     this.platforms = null;
+    this.player = null;
     this.bullets = null;
     this.enemies = null;
     this.enemyNames = null;
@@ -48,27 +48,12 @@
       ledge.body.immovable = true;
 
       // Create the player
-      this.player = this.add.sprite(420, 0, 'player');
-      this.player.scale.setTo(0.25, 0.25);
-      this.game.physics.arcade.enable(this.player);
+      this.player = new window['blockz'].Player(this);
+      this.player.create();
+      console.log(this.player);
 
-      this.player.body.bounce.y = 0.2;
-      this.player.body.gravity.y = 1000;
-      this.player.body.collideWorldBounds = true;
-
-      this.player.lastMovement = this.time.totalElapsedSeconds();
-      this.player.name = chance.first();
-
-      this.socket.emit("new player", {
-        x: this.player.x,
-        y: this.player.y,
-        name: this.player.name
-      });
-
-      // Show the player name
-      this.playerName = this.add.text(this.player.x, this.player.y - 50, this.player.name, {
-      	font: '12px Arial', fill: '#000000', align: 'center'
-      });
+      //console.log(this.game.Player);
+      //this.game.Player.create();
 
       // Bullets
       this.bullets = this.add.group();
@@ -88,8 +73,7 @@
 
     update: function () {
 
-      // Move the player
-      this.movePlayer();
+      this.player.update();
 
       // Shoot!
       if (this.input.activePointer.isDown) {
@@ -97,56 +81,12 @@
       }
 
       // Kill bullets when they hit platforms
-      this.physics.arcade.overlap(this.bullets, this.platforms, function (bullet, platform) {
+      this.physics.arcade.overlap(this.bullets, this.platforms, function (bullet) {
         bullet.kill();
       }, null, null);
 
       // Kill enemies when show
       this.physics.arcade.overlap(this.bullets, this.enemies, this.enemyShot, null, null);
-
-    },
-
-    movePlayer: function () {
-
-      var leftKey = Phaser.Keyboard.A,
-      rightKey = Phaser.Keyboard.D,
-      upKey = Phaser.Keyboard.W;
-
-      // Collide with platforms
-      this.physics.arcade.collide(this.player, this.platforms);
-
-      // Collied with enemies
-      this.physics.arcade.collide(this.player, this.enemies);
-
-      // Reset velocity
-      this.player.body.velocity.x = 0;
-
-      // Move left
-      if (this.input.keyboard.isDown(leftKey)) {
-        this.player.body.velocity.x = -150;
-      }
-      // Move right
-      else if (this.input.keyboard.isDown(rightKey)) {
-        this.player.body.velocity.x = 150;
-      }
-
-      // Jump!
-      // console.log(this.player.body.touching.down);
-      if (this.input.keyboard.isDown(upKey) && this.player.body.touching.down) {
-        this.player.body.velocity.y = -600;
-      }
-
-      if (this.time.totalElapsedSeconds() - this.player.lastMovement >= 0.015) {
-        this.socket.emit("move player", { x: this.player.x, y: this.player.y, name: this.player.name });
-        this.player.lastMovement = this.time.totalElapsedSeconds();
-      }
-
-      this.player.prevX = this.player.x;
-      this.player.prevY = this.player.y;
-
-      // Move the player name
-      this.playerName.x = this.player.x + (this.player.width / 2) - ( this.playerName.width / 2);
-      this.playerName.y = this.player.y - 20; // - ( this.player.width / 2 ) - ( this.playerName.textWidth / 2 );
 
     },
 
@@ -186,6 +126,7 @@
 
       this.socket = io.connect('http://lakka.kapsi.fi:62130');
       // this.socket = io.connect('http://localhost:62130');
+
       this.socket.on('connect', this.onSocketConnected);
 
       this.socket.on('new player', function (data) {
@@ -203,6 +144,7 @@
 
     onSocketConnected: function (data) {
       console.log('Connected to socket server!');
+      console.log(data);
     },
 
     onNewPlayer: function (data, self) {
@@ -237,7 +179,7 @@
       // Move the enemy
       for (i = 0; i < self.enemies.children.length; i++) {
         enemy = self.enemies.children[i];
-        if (enemy.id == data.id) {
+        if (enemy.id === data.id) {
           self.add.tween(enemy).to({ x: data.x, y: data.y }, 15, Phaser.Easing.Linear.None, true);
           break;
         }
@@ -246,7 +188,7 @@
       // Move the enemy name
       for (i = 0; i < self.enemyNames.children.length; i++) {
         enemyName = self.enemyNames.children[i];
-        if (enemyName.id == data.id) {
+        if (enemyName.id === data.id) {
           self.add.tween(enemyName).to({
             x: enemy.x + (enemy.width / 2) - (enemy.width / 2),
             y: enemy.y - 20
@@ -262,7 +204,7 @@
       var i, enemy;
       for (i = 0; i < self.enemies.children.length; i++) {
         enemy = self.enemies.children[i];
-        if (enemy.id == data.id) {
+        if (enemy.id === data.id) {
           enemy.kill();
         }
       }
