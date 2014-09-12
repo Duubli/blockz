@@ -12,6 +12,8 @@
     this.firerate = 100;
     this.nextFire = 0;
     this.socket = null;
+
+    this.playerController = null;
   }
 
   Game.prototype = {
@@ -48,9 +50,11 @@
       ledge.body.immovable = true;
 
       // Create the player
-      this.player = new window['blockz'].Player(this);
-      this.player.create();
-      console.log(this.player);
+      var player;
+      this.playerController = new window['blockz'].Player(this);
+      player = this.playerController.create(this);
+      this.player = player.player;
+      this.playerName = player.playerName;
 
       //console.log(this.game.Player);
       //this.game.Player.create();
@@ -73,7 +77,7 @@
 
     update: function () {
 
-      this.player.update();
+      this.playerController.update();
 
       // Shoot!
       if (this.input.activePointer.isDown) {
