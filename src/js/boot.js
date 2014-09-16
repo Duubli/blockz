@@ -5,6 +5,8 @@
 
   Boot.prototype = {
 
+  	console.log('duub');
+
     preload: function () {
       this.load.image('preloader', 'assets/preloader.gif');
     },
