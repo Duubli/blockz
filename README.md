@@ -27,6 +27,7 @@ npm run build
 ```
 
 This will build all files to `./dist/`.
+
 NOTE: The built game will automatically use the production socket server at `lakka.kapsi.fi:62130`
 
 TODO
