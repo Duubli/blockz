@@ -1,7 +1,7 @@
 Blockz
 ======
 
-Setting it up
+Developing
 -------------
 - Install node packages
 ```shell
@@ -13,24 +13,24 @@ npm install
 bower install
 ```
 
-- Watch files and start dev server
+- Watch files and start web server
 ```shell
 npm start
 ```
+
+- Start socket server
+```shell
+node server/server.js
+```
+
+Building
+--------
 
 - To build all files to `./dist/`
 ```shell
 npm run build
 ```
 
-Server
-------
-```shell
-node server/server.js
-```
-
 TODO
 ----
-- Display shooting by remote enemies
-- Respawn after death
-- Stats
+- You name it
