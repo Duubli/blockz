@@ -21,7 +21,8 @@
     "gulp-connect": "*",
     "gulp-watch": "*",
     "tiny-lr": "*",
-    "socket.io": "^1.1.0"
+    "socket.io": "^1.1.0",
+    "gulp-replace": "^0.4.0"
   },
   "scripts": {
     "post-install": "node ./node_modules/bower/bin/bower install",

@@ -9,6 +9,7 @@ var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
     connect = require('gulp-connect'),
+    replace = require('gulp-replace'),
     paths;
 
 paths = {
@@ -41,6 +42,7 @@ gulp.task('uglify', ['clean','lint'], function () {
   gulp.src(srcs)
     .pipe(concat('main.min.js'))
     .pipe(gulp.dest(paths.dist))
+    .pipe(replace('http://localhost:62130', 'http://lakka.kapsi.fi:62130'))
     .pipe(uglify({outSourceMaps: false}))
     .pipe(gulp.dest(paths.dist));
 });

@@ -49,6 +49,10 @@
       ledge.scale.setTo(10, 1);
       ledge.body.immovable = true;
 
+      ledge = this.platforms.create(200, 150, 'black');
+      ledge.scale.setTo(10, 1);
+      ledge.body.immovable = true;
+
       // Create the player
       var player;
       this.playerController = new window['blockz'].Player(this);
@@ -128,8 +132,7 @@
 
       var self = this;
 
-      this.socket = io.connect('http://lakka.kapsi.fi:62130');
-      // this.socket = io.connect('http://localhost:62130');
+      this.socket = io.connect('http://localhost:62130');
 
       this.socket.on('connect', this.onSocketConnected);
 
