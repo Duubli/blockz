@@ -3,14 +3,9 @@ Blockz
 
 Developing
 -------------
-- Install node packages
+- Install dependencies
 ```shell
-npm install
-```
-
-- Install bower packages
-```shell
-bower install
+npm install && bower install
 ```
 
 - Watch files and start web server
@@ -23,10 +18,10 @@ npm start
 node server/server.js
 ```
 
+- Open `http://localhost:9000` in your browser
+
 Building
 --------
-
-- To build all files to `./dist/`
 ```shell
 npm run build
 ```
