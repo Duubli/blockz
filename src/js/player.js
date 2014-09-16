@@ -1,4 +1,3 @@
-/*global chance */
 (function() {
   'use strict';
 
@@ -12,31 +11,37 @@
 
       // Create the player
       var player = this.game.add.sprite(420, 0, 'player');
-      player.scale.setTo(0.25, 0.25);
-      this.game.physics.arcade.enable(player);
 
+      // Set some physics
+      this.game.physics.arcade.enable(player);
       player.body.bounce.y = 0.2;
       player.body.gravity.y = 1000;
       player.body.collideWorldBounds = true;
 
-      player.lastMovement = this.game.time.totalElapsedSeconds();
+      // Generate a name for the player
       player.name = chance.first();
 
+      // Show the player name
+      var playerName = this.game.add.text(0, -50, player.name, {
+        font: '40px Arial', fill: '#000000'
+      });
+      playerName.x = player.width / 2 - playerName.width / 2;
+      player.addChild(playerName);
+
+      // Set the timestamp for the last movement
+      player.lastMovement = this.game.time.totalElapsedSeconds();
+
+      // Send the new player to the server
       this.game.socket.emit('new player', {
         x: player.x,
         y: player.y,
         name: player.name
       });
 
-      // Show the player name
-      var playerName = this.game.add.text(player.x, player.y - 50, player.name, {
-      	font: '12px Arial', fill: '#000000', align: 'center'
-      });
+      // Scale the player to be a bit smaller
+      player.scale.setTo(0.25, 0.25);
 
-      return {
-        player: player,
-        playerName: playerName
-      };
+      return player;
 
     },
 
@@ -84,10 +89,6 @@
 
       this.game.player.prevX = this.game.player.x;
       this.game.player.prevY = this.game.player.y;
-
-      // Move the player name
-      this.game.playerName.x = this.game.player.x + (this.game.player.width / 2) - ( this.game.playerName.width / 2);
-      this.game.playerName.y = this.game.player.y - 20; // - ( this.player.width / 2 ) - ( this.playerName.textWidth / 2 );
 
     }
 

@@ -1,4 +1,3 @@
-/*global io */
 (function() {
   'use strict';
 
@@ -8,7 +7,6 @@
     this.player = null;
     this.bullets = null;
     this.enemies = null;
-    this.enemyNames = null;
     this.firerate = 100;
     this.nextFire = 0;
     this.socket = null;
@@ -54,14 +52,8 @@
       ledge.body.immovable = true;
 
       // Create the player
-      var player;
       this.playerController = new window['blockz'].Player(this);
-      player = this.playerController.create(this);
-      this.player = player.player;
-      this.playerName = player.playerName;
-
-      //console.log(this.game.Player);
-      //this.game.Player.create();
+      this.player = this.playerController.create(this);
 
       // Bullets
       this.bullets = this.add.group();
@@ -73,9 +65,6 @@
       // Enemies
       this.enemies = this.add.group();
       this.enemies.enableBody = true;
-
-      // EnemyNames
-      this.enemyNames = this.add.group();
 
     },
 
@@ -162,44 +151,32 @@
 
       // Create the enemy
       var enemy = self.enemies.create(data.x, data.y, 'player');
-      enemy.scale.setTo(0.25, 0.25);
       enemy.health = 100;
       enemy.id = data.id;
       enemy.body.collideWorldBounds = true;
       enemy.body.immovable = true;
 
       // Display enemy name
-      var enemyName = this.add.text(data.x, data.y - 50, data.name, {
-      	font: '12px Arial', fill: '#000000', align: 'center'
-      }, this.enemyNames);
+      var enemyName = this.add.text(0, -50, data.name, {
+      	font: '40px Arial', fill: '#000000', align: 'center'
+      });
+      enemyName.x = enemy.width / 2 - enemyName.width / 2;
+      enemy.addChild(enemyName);
 
-      enemyName.id = data.id;
-      enemyName.x = enemy.x + (enemy.width / 2) - (enemy.width / 2);
-      enemyName.y = enemy.y - 20;
+      // Scale the enemy to be a bit smaller
+      enemy.scale.setTo(0.25, 0.25);
 
     },
 
     onPlayerMove: function (data, self) {
 
-      var i, enemy, enemyName;
+      var i, enemy;
 
       // Move the enemy
       for (i = 0; i < self.enemies.children.length; i++) {
         enemy = self.enemies.children[i];
         if (enemy.id === data.id) {
           self.add.tween(enemy).to({ x: data.x, y: data.y }, 15, Phaser.Easing.Linear.None, true);
-          break;
-        }
-      }
-
-      // Move the enemy name
-      for (i = 0; i < self.enemyNames.children.length; i++) {
-        enemyName = self.enemyNames.children[i];
-        if (enemyName.id === data.id) {
-          self.add.tween(enemyName).to({
-            x: enemy.x + (enemy.width / 2) - (enemy.width / 2),
-            y: enemy.y - 20
-          }, 15, Phaser.Easing.Linear.None, true);
           break;
         }
       }
