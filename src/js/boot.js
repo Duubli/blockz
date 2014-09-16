@@ -5,13 +5,14 @@
 
   Boot.prototype = {
 
-  	console.log('duub');
-
     preload: function () {
       this.load.image('preloader', 'assets/preloader.gif');
     },
 
     create: function () {
+
+      console.log('duubliiii!');
+
       this.game.input.maxPointers = 1;
 
       if (this.game.device.desktop) {
