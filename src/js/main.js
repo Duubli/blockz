@@ -2,9 +2,10 @@ window.onload = function () {
   'use strict';
 
   var game,
-      ns = window['blockz'];
+      ns = window['blockz'],
+      w = window.innerWidth, h = window.innerHeight;
 
-  game = new Phaser.Game(640, 480, Phaser.AUTO, 'blockz-game');
+  game = new Phaser.Game(w, h, Phaser.AUTO, 'blockz-game');
 
   game.state.add('boot', ns.Boot);
   game.state.add('preloader', ns.Preloader);

@@ -13,13 +13,20 @@
       this.game.input.maxPointers = 1;
 
       if (this.game.device.desktop) {
+      	this.scale.pageAlignHorizontally = true;
+        this.scale.pageAlignVertically = true;
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        this.scale.setScreenSize(true);
+        this.scale.refresh();
+        /*
         this.scale.setMinMax(480, 260, 1024, 768);
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;
         this.scale.setScreenSize(true);
         this.scale.refresh();
+        */
       } else {
+        /*
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.setMinMax(480, 260, 1024, 768);
         this.scale.pageAlignHorizontally = true;
@@ -30,6 +37,7 @@
         this.scale.leaveIncorrectOrientation.add(this.leaveIncorrectOrientation, this);
         this.scale.setScreenSize(true);
         this.scale.refresh();
+        */
       }
       this.game.state.start('preloader');
     },

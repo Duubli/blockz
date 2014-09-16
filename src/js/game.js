@@ -7,7 +7,7 @@
     this.player = null;
     this.bullets = null;
     this.enemies = null;
-    this.firerate = 100;
+    this.firerate = 300;
     this.nextFire = 0;
     this.socket = null;
 
@@ -20,6 +20,9 @@
 
       // Connect to socket.io
       this.setSocket();
+
+      // Create the game world
+      this.world.setBounds(0, 0, 1920, 480);
 
       // Set physics
       this.physics.startSystem(Phaser.Physics.ARCADE);
@@ -34,26 +37,52 @@
       this.platforms.enableBody = true;
 
       // The ground
+      var ground = this.add.tileSprite(0, this.world.height - 10, this.world.width, 10, 'black');
+      this.physics.enable(ground, Phaser.Physics.ARCADE);
+      ground.body.collideWorldBounds = true;
+      ground.body.immovable = true;
+      this.platforms.add(ground);
+
+      /*
       var ground = this.platforms.create(0, this.world.height - 10, 'black');
       ground.scale.setTo(64, 1);
       ground.body.immovable = true;
+      */
 
       // Some ledges to jump on
+      var ledge1 = this.add.tileSprite(400, 250, 100, 10, 'black');
+      this.physics.enable(ledge1, Phaser.Physics.ARCADE);
+      ledge1.body.immovable = true;
+
+      var ledge2 = this.add.tileSprite(0, 300, 100, 10, 'black');
+      this.physics.enable(ledge2, Phaser.Physics.ARCADE);
+      ledge2.body.immovable = true;
+
+      var ledge3 = this.add.tileSprite(200, 150, 100, 10, 'black');
+      this.physics.enable(ledge3, Phaser.Physics.ARCADE);
+      ledge3.body.immovable = true;
+
+      this.platforms.addMultiple([ledge1, ledge2, ledge3]);
+
+      /*
+      this.platforms.add(ledge);
       var ledge = this.platforms.create(400, 250, 'black');
       ledge.scale.setTo(10, 1);
       ledge.body.immovable = true;
 
-      ledge = this.platforms.create(0, 300, 'black');
+      var ledge = this.platforms.create(0, 300, 'black');
       ledge.scale.setTo(10, 1);
       ledge.body.immovable = true;
 
       ledge = this.platforms.create(200, 150, 'black');
       ledge.scale.setTo(10, 1);
       ledge.body.immovable = true;
+      */
 
       // Create the player
       this.playerController = new window['blockz'].Player(this);
       this.player = this.playerController.create(this);
+      this.camera.follow(this.player);
 
       // Bullets
       this.bullets = this.add.group();
