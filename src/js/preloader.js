@@ -21,7 +21,7 @@
       this.load.setPreloadSprite(this.asset);
 
       // Load all other images
-      this.load.image('player', 'assets/player.png');
+      this.load.spritesheet('player', 'assets/bunny.png', 64, 64);
       this.load.image('black', 'assets/black.png');
       this.load.image('white', 'assets/white.png');
 

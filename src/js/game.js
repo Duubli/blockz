@@ -95,6 +95,7 @@
       this.enemies = this.add.group();
       this.enemies.enableBody = true;
 
+
     },
 
     update: function () {
@@ -118,20 +119,26 @@
 
     shoot: function () {
 
-      var bullet;
+//      var bullet;
+
+      this.player.weapon.animations.play('fire', 20, false);
+      console.log(this.player);
+
+
 
       // If shooting is allowed, SHOOT!
-      if (this.time.now > this.nextFire && this.bullets.countDead() > 0) {
-        this.nextFire = this.time.now + this.firerate;
-
-        bullet = this.bullets.getFirstDead();
-        bullet.reset(this.player.x, this.player.y);
-        this.physics.arcade.moveToPointer(bullet, 300);
-      }
+    //   if (this.time.now > this.nextFire && this.bullets.countDead() > 0) {
+    //     this.nextFire = this.time.now + this.firerate;
+      //
+    //     bullet = this.bullets.getFirstDead();
+    //     bullet.reset(this.player.x, this.player.y);
+    //     this.physics.arcade.moveToPointer(bullet, 300);
+    //   }
 
     },
 
     enemyShot: function (bullet, enemy) {
+
 
       // Decrease health
       enemy.health -= 20;
