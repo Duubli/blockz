@@ -26,7 +26,7 @@
     "tiny-lr": "*"
   },
   "scripts": {
-    "post-install": "./node_modules/.bin/bower install",
+    "postinstall": "./node_modules/.bin/bower install",
     "start": "./node_modules/.bin/gulp",
     "build": "./node_modules/.bin/gulp build",
     "lint": "./node_modules/.bin/gulp lint",
