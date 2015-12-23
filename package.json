@@ -8,21 +8,22 @@
   "devDependencies": {
     "bower": "*",
     "gulp": "*",
-    "gulp-util": "*",
     "gulp-clean": "*",
     "gulp-concat": "*",
+    "gulp-connect": "*",
     "gulp-download": "*",
-    "gulp-rename": "*",
+    "gulp-jshint": "*",
     "gulp-minify-css": "*",
     "gulp-minify-html": "*",
     "gulp-processhtml": "*",
-    "gulp-jshint": "*",
+    "gulp-rename": "*",
+    "gulp-replace": "^0.4.0",
     "gulp-uglify": "*",
-    "gulp-connect": "*",
+    "gulp-util": "*",
     "gulp-watch": "*",
-    "tiny-lr": "*",
+    "jshint": "^2.8.0",
     "socket.io": "^1.1.0",
-    "gulp-replace": "^0.4.0"
+    "tiny-lr": "*"
   },
   "scripts": {
     "post-install": "./node_modules/.bin/bower install",
