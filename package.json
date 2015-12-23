@@ -25,9 +25,9 @@
     "gulp-replace": "^0.4.0"
   },
   "scripts": {
-    "post-install": "node ./node_modules/bower/bin/bower install",
-    "start": "node ./node_modules/gulp/bin/gulp.js",
-    "build": "node ./node_modules/gulp/bin/gulp.js build",
-    "lint": "node ./node_modules/gulp/bin/gulp.js lint"
+    "post-install": "./node_modules/.bin/bower install",
+    "start": "./node_modules/.bin/gulp",
+    "build": "./node_modules/.bin/gulp build",
+    "lint": "./node_modules/.bin/gulp lint"
   }
 }
